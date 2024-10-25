@@ -1,0 +1,28 @@
+<% unless comment.archived? %>
+  <div class="comment">
+    <p>
+      <strong>Yorum Yapan:</strong>
+      <%= comment.commenter %>
+    </p>
+
+    <p>
+      <strong>Yorum:</strong>
+      <%= comment.body %>
+    </p>
+
+    <p>
+      <strong>Yorum Durumu:</strong>
+      <%= comment.status %>
+    </p>
+
+    <% if comment.user == current_user && comment.status != "archived" %>
+      <p>
+        <%= link_to "Yorumu Sil", [comment.article, comment], data: {
+                      turbo_method: :delete,
+                      turbo_confirm: "Emin misiniz?"
+                    }, class: "delete-comment" %>
+      </p>
+    <% end %>
+  </div>
+  <hr> <!-- Kesik çizgi ekle -->
+<% end %>

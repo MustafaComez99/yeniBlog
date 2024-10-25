@@ -1,0 +1,24 @@
+<%= form_with model: [article, article.comments.build] do |form| %>
+    <p>
+      <%= form.hidden_field :user_id, value: current_user.id, readonly: true %>
+    </p>
+    
+    <p>
+      <%= form.label :commenter, "Yorumu Yapan" %><br>
+      <%= form.text_field :commenter, value: current_user ? current_user.userName : "Anonim", readonly: true %>
+    </p>
+    
+    <p>
+      <%= form.label :body, "Yorum" %><br>
+      <%= form.text_area :body, placeholder: "Yorumunuzu buraya yazın..." %>
+    </p>
+    
+    <p>
+      <%= form.label :status, "Durum" %><br>
+      <%= form.select :status, Visible::VALID_STATUSES, selected: 'public' %>
+    </p>
+    
+    <p>
+      <%= form.submit "Yorumu Ekle", class: "submit-button" %>
+    </p>
+<% end %>

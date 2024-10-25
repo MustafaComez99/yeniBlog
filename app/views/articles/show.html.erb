@@ -1,0 +1,24 @@
+<div class="article-container">
+  <h1 class="article-title"><%= @article.title %></h1>
+  <h3 class="author-info">Yazar: <%= User.find(@article.user_id).userName %></h3>
+  <p class="article-body"><%= @article.body %></p>
+
+  <% if current_user == @article.user %>
+    <div class="edit-delete-links">
+      <%= link_to "Düzenle", edit_article_path(@article) %>
+      <%= link_to "Sil", article_path(@article), data: { turbo_method: :delete, turbo_confirm: "Emin misiniz?" } %>
+    </div>
+  <% end %>
+
+  <div class="comments-section">
+    <h2>Yorumlar</h2>
+    <%= render @article.comments %> 
+    <!-- _comment.html.erb sayfasındaki partial collection renderlanır -->
+    
+    <div class="comment-form">
+      <h2>Makaleye Bir Yorum Ekle:</h2>
+      <%= render "comments/form", article: @article %>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,58 @@
+<h1>Merhaba</h1>
+
+
+
+
+
+
+<h1 style="text-align: center; font-family: Arial, sans-serif;">Blog Sayfamıza Hoşgeldiniz...</h1>
+
+<% if user_signed_in? %>
+  <div style="position: absolute; top: 10px; right: 10px; text-align: right;">
+    <%= link_to "Çıkış Yap", destroy_user_session_path, style: "background-color: red; padding: 8px 15px; color: white; text-decoration: none; border-radius: 5px; margin-top: 5px;", data: {"turbo-method": :delete} %>
+    <div style="margin-top: 5px; color: black; font-weight: bold;">
+      Hoş geldin, <%= current_user.userName %>!
+    </div>
+  </div>
+<% else %>
+  <div style="position: absolute; top: 10px; right: 10px;">
+    <%= link_to 'Giriş Yap', new_user_session_path, style: "background-color: #008CBA; padding: 8px 15px; color: white; text-decoration: none; border-radius: 5px; margin-right: 10px;" %>
+    <%= link_to 'Kayıt Ol', new_user_registration_path, style: "background-color: green; padding: 8px 15px; color: white; text-decoration: none; border-radius: 5px;" %>
+  </div>
+<% end %>
+
+<div style="text-align: center; margin-top: 60px;">
+  Blog Sayfamızda <strong><%= Article.public_count %></strong> adet makale bulunmaktadır. Keyifli okumalar dileriz!
+</div>
+
+<% if user_signed_in? %>
+  <div style="margin-top: 20px; text-align: center;">
+    <%= link_to "Arşivlenmiş Makalelerim", archived_articles_path, style: "background-color: #008CBA; padding: 10px 20px; color: white; text-decoration: none; border-radius: 5px;" %>
+  </div>
+
+  <h3 style="margin-top: 30px; text-align: center;">Gizli Makalelerim</h3>
+  <ul style="list-style-type: none; padding: 0;">
+    <% @articles.each do |article| %>
+      <% if article.status == 'private' && article.user_id == current_user.id %>
+        <li style="margin-bottom: 10px; text-align: center;">
+          <%= link_to article.title, article, style: "text-decoration: none; font-weight: bold;" %>
+        </li>
+      <% end %>
+    <% end %>
+  </ul>
+<% end %>
+
+<h3 style="margin-top: 30px; text-align: center;">Herkese Açık Makaleler</h3>
+<ul style="list-style-type: none; padding: 0;">
+  <% @articles.each do |article| %>
+    <% if article.status == 'public' %>
+      <li style="margin-bottom: 10px; text-align: center;">
+        <%= link_to article.title, article, style: "text-decoration: none; font-weight: bold;" %>
+      </li>
+    <% end %>
+  <% end %>
+</ul>
+
+<div style="text-align: center; margin-top: 20px;">
+  <%= link_to "Yeni Makale Oluştur", new_article_path, style: "background-color: green; padding: 10px 20px; color: white; text-decoration: none; border-radius: 5px;" %>
+</div>

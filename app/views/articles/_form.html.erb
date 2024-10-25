@@ -1,0 +1,30 @@
+<%= form_with model: article, class: "article-form" do |form| %>
+  <!-- Kullanıcı ID'si gizli alan -->
+  <%= form.hidden_field :user_id, value: current_user.id, readonly: true %>
+  <!-- Başlık alanı -->
+  <div class="form-group">
+    <%= form.label :title, "Başlık" %><br>
+    <%= form.text_field :title, class: "form-control" %>
+    <% article.errors.full_messages_for(:title).each do |message| %>
+      <div class="error-message"><%= message %></div>
+    <% end %>
+  </div>
+  <!-- İçerik alanı -->
+  <div class="form-group">
+    <%= form.label :body, "İçerik" %><br>
+    <%= form.text_area :body, class: "form-control" %>
+    <% article.errors.full_messages_for(:body).each do |message| %>
+      <div class="error-message"><%= message %></div>
+    <% end %>
+  </div>
+  <!-- Durum alanı -->
+  <div class="form-group">
+    <%= form.label :status, "Durum" %><br>
+    <%= form.select :status, Visible::VALID_STATUSES, selected: article.status || 'public', class: "form-control" %>
+  </div>
+  <!-- Gönder butonu -->
+  <div class="form-group">
+    <%= form.submit "Makaleyi Oluştur", class: "submit-btn" %>
+  </div>
+<% end %>
+
